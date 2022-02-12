@@ -37,16 +37,19 @@ function getMostPopularBooks(books) {
 function getMostPopularAuthors(books, authors) {
   let popularAuthors = {}
   let authorsList = [];
+  let count = 0;
   authors.forEach((author) => {
     const name = `${author.name.first + " " + author.name.last}`;
     const authorBorrowsCount = books.filter((book) => book.authorId === author.id).map((book) => book.borrows.length);
-    const count = authorBorrowsCount.reduce((count, borrow) => count + borrow);
     
+    count = authorBorrowsCount.length > 0 ?  authorBorrowsCount.reduce((tally, borrow) => tally + borrow) : count = 0;
+
     popularAuthors = {
       ...popularAuthors,
       [name]: count
     }
   })
+  
   return sortAndSlice(createList(popularAuthors,authorsList));
 }
 
